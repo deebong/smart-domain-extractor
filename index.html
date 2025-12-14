@@ -6,20 +6,20 @@
     <title>Domain Extractor Pro</title>
     <style>
         :root { 
-            --primary: #2563eb; 
-            --primary-hover: #1d4ed8;
-            --bg: #f3f4f6; 
-            --text: #1f2937; 
-            --border: #d1d5db;
+            --primary: #0f766e; 
+            --primary-hover: #0d9488;
+            --bg: #f8fafc; 
+            --text: #0f172a; 
+            --border: #e2e8f0;
             --panel-bg: #ffffff;
-            --scrollbar-thumb: #9ca3af;
+            --scrollbar-thumb: #cbd5e1;
         }
 
         /* Custom Scrollbars */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
 
         body { 
@@ -34,7 +34,7 @@
             flex-direction: column; 
         }
 
-        h1 { margin: 0 0 15px; font-size: 1.4rem; color: #111827; display: flex; align-items: center; gap: 10px; }
+        h1 { margin: 0 0 15px; font-size: 1.4rem; color: #1e293b; display: flex; align-items: center; gap: 10px; }
         .badge { background: var(--primary); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; vertical-align: middle; }
 
         .container { 
@@ -52,16 +52,16 @@
             display: flex; 
             flex-direction: column; 
             overflow: hidden; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
         }
 
         .header { 
             padding: 10px 15px; 
-            background: #f9fafb; 
+            background: #f1f5f9; 
             border-bottom: 1px solid var(--border); 
             font-weight: 600; 
             font-size: 0.85rem; 
-            color: #374151; 
+            color: #475569; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -76,7 +76,7 @@
             font-family: "Menlo", "Consolas", monospace; 
             font-size: 13px; 
             line-height: 1.5;
-            color: #1f2937;
+            color: #334155;
         }
 
         /* Sidebar Styling */
@@ -86,7 +86,7 @@
             font-size: 0.75rem; 
             text-transform: uppercase; 
             letter-spacing: 0.05em; 
-            color: #6b7280; 
+            color: #94a3b8; 
             margin: 15px 0 8px; 
             font-weight: 700; 
         }
@@ -99,7 +99,7 @@
         button { 
             background: white; 
             border: 1px solid var(--border); 
-            color: #374151; 
+            color: #475569; 
             padding: 8px 10px; 
             border-radius: 6px; 
             cursor: pointer; 
@@ -112,7 +112,7 @@
             gap: 6px;
         }
         
-        button:hover { border-color: var(--primary); color: var(--primary); background: #eff6ff; }
+        button:hover { border-color: var(--primary); color: var(--primary); background: #f0fdfa; }
         
         button.primary-action { 
             background: var(--primary); 
@@ -129,13 +129,12 @@
         .stats-table tr { 
             cursor: pointer; 
             transition: background 0.1s; 
-            border-bottom: 1px solid #f3f4f6;
+            border-bottom: 1px solid #f1f5f9;
         }
-        .stats-table tr:hover { background-color: #f3f4f6; }
+        .stats-table tr:hover { background-color: #f1f5f9; }
         
-        /* Active Filter State */
         .stats-table tr.active-filter { 
-            background-color: #dbeafe; 
+            background-color: #ccfbf1; 
             color: var(--primary); 
             font-weight: 600; 
         }
@@ -168,7 +167,7 @@
     <div class="panel">
         <div class="header">
             <span id="output-label">Extracted Domains</span>
-            <span id="count-badge" style="background:#e5e7eb; padding:2px 6px; border-radius:4px; font-size:11px">0</span>
+            <span id="count-badge" style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-size:11px">0</span>
         </div>
         <textarea id="output" readonly placeholder="Results will appear here..."></textarea>
     </div>
@@ -200,14 +199,13 @@
             <span>TLD Stats</span>
             <span style="font-size:0.65rem; cursor:pointer; text-decoration:underline;" onclick="resetFilter()">Show All</span>
         </div>
-        <div id="stats-container" style="color:#9ca3af; font-size:0.8rem; font-style:italic;">
+        <div id="stats-container" style="color:#94a3b8; font-size:0.8rem; font-style:italic;">
             No data yet...
         </div>
     </div>
 </div>
 
 <script>
-    // Updated RISKY list to include .ai, .tech, .de to prevent sentence capture
     const RISKY_TLDS = new Set(["in", "me", "us", "to", "at", "it", "is", "on", "by", "my", "so", "go", "no", "do", "be", "or", "of", "an", "up", "info", "website", "tv", "app", "site", "ai", "tech", "de"]);
     
     const VALID_TLDS = [
@@ -218,7 +216,6 @@
         "website", "space", "club", "vip", "pro", "group", "ie", "tv", "cc"
     ];
 
-    // Expanded Stop Words to include common false positives from your text
     const STOP_WORDS = [
         "sold", "via", "at", "for", "price", "domain", "name", "date", 
         "bin", "asking", "offer", "http", "https", "www", "venue", 
@@ -227,7 +224,7 @@
         "renewal", "renewals", "reg", "handreg", "budget", "escrow", "fees", "fee",
         "search", "login", "register", "news", "vote", "poll", "thread", "posts",
         "hype", "market", "top", "why", "like", "sectors", "creme", "software",
-        "agency", "startup", "type", "of", "sounds", "legitimate", "tool"
+        "agency", "startup", "type", "of", "sounds", "legitimate", "tool", "and"
     ];
 
     let masterDomains = [];
@@ -241,8 +238,11 @@
         let rawResults = [];
 
         lines.forEach(line => {
-            const extracted = processLine(line);
-            if (extracted) rawResults.push(extracted);
+            // Process returns an ARRAY of domains now
+            const found = processLine(line);
+            if (found && found.length > 0) {
+                rawResults.push(...found);
+            }
         });
 
         masterDomains = [...new Set(rawResults)];
@@ -252,17 +252,13 @@
     }
 
     function processLine(line) {
-        if (!line || line.length < 4) return null;
+        if (!line || line.length < 4) return [];
 
-        // 1. CLEAN LIST MARKERS & BULLETS (Fixes "1Neuracentral.com")
-        // Removes "1. ", "1) ", "o ", "• " from start of line
-        let cleanLine = line.replace(/^\s*(\d+[\.\)\-]|\*|o|•)\s+/, "");
+        let results = [];
+        let cleanLine = line.replace(/^\s*(\d+[\.\)\-]|\*|o|•)\s+/, ""); // Clean bullets
+        cleanLine = cleanLine.replace(/[:";\(\)]/g, " | "); // Hard Barriers
 
-        // 2. HARD BARRIERS (Fixes "Why: AI")
-        // Treat colons, quotes, parens as walls.
-        cleanLine = cleanLine.replace(/[:";\(\)]/g, " | ");
-
-        // 3. Normalization (Visual tricks)
+        // Normalization
         let norm = cleanLine.replace(/ dawt /gi, ".")
                             .replace(/ dot /gi, ".")
                             .replace(/\[\.\]/g, ".")
@@ -270,8 +266,10 @@
                             .replace(/•/g, ".");
 
         const tldRegex = new RegExp(`([\\.\\/\\s\\[])(${VALID_TLDS.join('|')})([\\s)\\]\\/,|!?]|$|:)`, 'gi');
-        let match, bestCandidate = null;
+        let match;
+        let lastMatchEnd = 0; // Track where the last valid domain ended
 
+        // Loop through ALL matches in the line
         while ((match = tldRegex.exec(norm)) !== null) {
             const separator = match[1];
             const tld = match[2]; 
@@ -281,31 +279,30 @@
             const isSpaceSep = separator === ' ';
 
             // RISKY TLD + SPACE CHECK
-            // If it's a risky TLD (like .ai) and separated by space,
-            // we are VERY strict. If preceding char is a letter, it's likely a word.
             if (isRisky && isSpaceSep) {
                 const charBefore = norm[matchIndex - 1];
                 if (charBefore && /[a-z0-9]/i.test(charBefore)) continue;
             }
 
-            let leftSide = norm.substring(0, matchIndex);
+            // EXTRACT LEFT SIDE
+            // Crucial Change: Only look from where the LAST domain ended.
+            // This prevents "sheetlaunch.com" from being part of "sheetcarthub.com"
+            let leftSide = norm.substring(lastMatchEnd, matchIndex);
+            
             const stopRegex = new RegExp(`\\b(${STOP_WORDS.join('|')})\\b`, 'gi');
             let tempLeft = leftSide.replace(stopRegex, "|");
             
-            // Clean Numbers/Prices
             tempLeft = tempLeft.replace(/[$€£]\s?[\d,.]+/g, "|"); 
             tempLeft = tempLeft.replace(/\b\d{4}\b/g, "|"); 
             
             const parts = tempLeft.split('|');
             let candidate = parts[parts.length - 1];
             
-            // Sanitize
             let cleanName = candidate.replace(/[\s\/\[\]\(\)\.•․\\':",*\-]/g, "");
 
-            // Gates
+            // GATES
             if (cleanName.length < 2 || cleanName.length > 30) continue;
             
-            // Sentence Logic
             if (candidate.includes(' ')) {
                 const words = candidate.trim().split(/\s+/);
                 const avgLen = words.reduce((a, b) => a + b.length, 0) / words.length;
@@ -315,13 +312,16 @@
 
             if (STOP_WORDS.includes(cleanName.toLowerCase())) continue;
 
-            bestCandidate = cleanName + "." + tld.toLowerCase();
-            // Break if we found a "strong" match (not risky space-sep)
-            if (!isRisky || !isSpaceSep) break;
+            // Success!
+            results.push(cleanName + "." + tld.toLowerCase());
+            
+            // Move the "Cursor" forward so the next match only sees text AFTER this domain
+            lastMatchEnd = matchIndex + match[0].length;
         }
-        return bestCandidate;
+        return results;
     }
 
+    // --- UI Helpers ---
     function updateUI() {
         document.getElementById('output').value = visibleDomains.join('\n');
         document.getElementById('count-badge').innerText = visibleDomains.length;
@@ -332,7 +332,7 @@
             label.style.color = 'var(--primary)';
         } else {
             label.innerText = 'Extracted Domains';
-            label.style.color = '#374151';
+            label.style.color = '#334155';
         }
 
         generateStats();
@@ -376,11 +376,12 @@
         sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
         document.getElementById('btn-sort').innerText = sortDirection === 'asc' ? 'Sort: A ➝ Z' : 'Sort: Z ➝ A';
         
-        if (sortDirection === 'asc') {
-            visibleDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-        } else {
-            visibleDomains.sort((a, b) => b.toLowerCase().localeCompare(a.toLowerCase()));
-        }
+        const sorter = (a, b) => {
+            return sortDirection === 'asc' 
+                ? a.toLowerCase().localeCompare(b.toLowerCase())
+                : b.toLowerCase().localeCompare(a.toLowerCase());
+        };
+        visibleDomains.sort(sorter);
         updateUI();
     }
 
