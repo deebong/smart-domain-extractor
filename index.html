@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,22 +6,20 @@
     <title>Domain Extractor Pro</title>
     <style>
         :root { 
-            --primary: #4f46e5; 
-            --primary-hover: #4338ca;
-            --bg: #f1f5f9; 
-            --text: #1e293b; 
-            --border: #cbd5e1;
+            --primary: #2563eb; 
+            --primary-hover: #1d4ed8;
+            --bg: #f3f4f6; 
+            --text: #1f2937; 
+            --border: #d1d5db;
             --panel-bg: #ffffff;
-            --scrollbar-thumb: #cbd5e1;
-            --scrollbar-hover: #94a3b8;
+            --scrollbar-thumb: #9ca3af;
         }
 
-        /* 1. Custom Scrollbars */
+        /* Custom Scrollbars */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); }
-        /* Firefox support */
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
         * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
 
         body { 
@@ -36,7 +34,7 @@
             flex-direction: column; 
         }
 
-        h1 { margin: 0 0 15px; font-size: 1.4rem; color: #334155; display: flex; align-items: center; gap: 10px; }
+        h1 { margin: 0 0 15px; font-size: 1.4rem; color: #111827; display: flex; align-items: center; gap: 10px; }
         .badge { background: var(--primary); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; vertical-align: middle; }
 
         .container { 
@@ -54,16 +52,16 @@
             display: flex; 
             flex-direction: column; 
             overflow: hidden; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
         }
 
         .header { 
             padding: 10px 15px; 
-            background: #f8fafc; 
+            background: #f9fafb; 
             border-bottom: 1px solid var(--border); 
             font-weight: 600; 
             font-size: 0.85rem; 
-            color: #475569; 
+            color: #374151; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -78,7 +76,7 @@
             font-family: "Menlo", "Consolas", monospace; 
             font-size: 13px; 
             line-height: 1.5;
-            color: #334155;
+            color: #1f2937;
         }
 
         /* Sidebar Styling */
@@ -88,7 +86,7 @@
             font-size: 0.75rem; 
             text-transform: uppercase; 
             letter-spacing: 0.05em; 
-            color: #94a3b8; 
+            color: #6b7280; 
             margin: 15px 0 8px; 
             font-weight: 700; 
         }
@@ -101,7 +99,7 @@
         button { 
             background: white; 
             border: 1px solid var(--border); 
-            color: #475569; 
+            color: #374151; 
             padding: 8px 10px; 
             border-radius: 6px; 
             cursor: pointer; 
@@ -114,7 +112,7 @@
             gap: 6px;
         }
         
-        button:hover { border-color: var(--primary); color: var(--primary); background: #f5f3ff; }
+        button:hover { border-color: var(--primary); color: var(--primary); background: #eff6ff; }
         
         button.primary-action { 
             background: var(--primary); 
@@ -131,13 +129,13 @@
         .stats-table tr { 
             cursor: pointer; 
             transition: background 0.1s; 
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid #f3f4f6;
         }
-        .stats-table tr:hover { background-color: #f1f5f9; }
+        .stats-table tr:hover { background-color: #f3f4f6; }
         
         /* Active Filter State */
         .stats-table tr.active-filter { 
-            background-color: #e0e7ff; 
+            background-color: #dbeafe; 
             color: var(--primary); 
             font-weight: 600; 
         }
@@ -170,7 +168,7 @@
     <div class="panel">
         <div class="header">
             <span id="output-label">Extracted Domains</span>
-            <span id="count-badge" style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-size:11px">0</span>
+            <span id="count-badge" style="background:#e5e7eb; padding:2px 6px; border-radius:4px; font-size:11px">0</span>
         </div>
         <textarea id="output" readonly placeholder="Results will appear here..."></textarea>
     </div>
@@ -184,7 +182,9 @@
             <button onclick="groupByTLD()">Group TLD</button>
         </div>
         
-        <div style="height: 8px;"></div> <div class="btn-grid">
+        <div style="height: 8px;"></div>
+
+        <div class="btn-grid">
             <button onclick="applyFormat('camel')">CamelCase</button>
             <button onclick="applyFormat('lower')">lowercase</button>
         </div>
@@ -200,14 +200,15 @@
             <span>TLD Stats</span>
             <span style="font-size:0.65rem; cursor:pointer; text-decoration:underline;" onclick="resetFilter()">Show All</span>
         </div>
-        <div id="stats-container" style="color:#94a3b8; font-size:0.8rem; font-style:italic;">
+        <div id="stats-container" style="color:#9ca3af; font-size:0.8rem; font-style:italic;">
             No data yet...
         </div>
     </div>
 </div>
 
 <script>
-    const RISKY_TLDS = new Set(["in", "me", "us", "to", "at", "it", "is", "on", "by", "my", "so", "go", "no", "do", "be", "or", "of", "an", "up", "info", "website", "tv", "app", "site"]);
+    // Updated RISKY list to include .ai, .tech, .de to prevent sentence capture
+    const RISKY_TLDS = new Set(["in", "me", "us", "to", "at", "it", "is", "on", "by", "my", "so", "go", "no", "do", "be", "or", "of", "an", "up", "info", "website", "tv", "app", "site", "ai", "tech", "de"]);
     
     const VALID_TLDS = [
         "co.uk", "com.au", "co.in", "net.in", "org.uk", "co.jp",
@@ -217,20 +218,22 @@
         "website", "space", "club", "vip", "pro", "group", "ie", "tv", "cc"
     ];
 
+    // Expanded Stop Words to include common false positives from your text
     const STOP_WORDS = [
         "sold", "via", "at", "for", "price", "domain", "name", "date", 
         "bin", "asking", "offer", "http", "https", "www", "venue", 
         "sale", "hold", "time", "cost", "profit", "purchase", "acquisition", 
         "bought", "bargain", "note", "initial", "hesitation", "drop", "registered",
         "renewal", "renewals", "reg", "handreg", "budget", "escrow", "fees", "fee",
-        "search", "login", "register", "news", "vote", "poll", "thread", "posts"
+        "search", "login", "register", "news", "vote", "poll", "thread", "posts",
+        "hype", "market", "top", "why", "like", "sectors", "creme", "software",
+        "agency", "startup", "type", "of", "sounds", "legitimate", "tool"
     ];
 
-    // State Management
-    let masterDomains = [];   // The complete list extracted from text
-    let visibleDomains = [];  // The currently filtered/sorted list shown in textarea
-    let sortDirection = 'asc'; // 'asc' or 'desc'
-    let activeFilter = null;   // null or 'com', 'ai', etc.
+    let masterDomains = [];
+    let visibleDomains = [];
+    let sortDirection = 'asc';
+    let activeFilter = null;
 
     function runExtraction() {
         const text = document.getElementById('input').value;
@@ -242,27 +245,31 @@
             if (extracted) rawResults.push(extracted);
         });
 
-        // Deduplicate
         masterDomains = [...new Set(rawResults)];
-        
-        // Reset filters on new extraction
         activeFilter = null; 
         visibleDomains = [...masterDomains];
-        
         updateUI();
     }
 
     function processLine(line) {
         if (!line || line.length < 4) return null;
 
-        let norm = line.replace(/ dawt /gi, ".")
-                       .replace(/ dot /gi, ".")
-                       .replace(/\(\.\)/g, ".")
-                       .replace(/\[\.\]/g, ".")
-                       .replace(/\[dot\]/gi, ".")
-                       .replace(/•/g, ".");
+        // 1. CLEAN LIST MARKERS & BULLETS (Fixes "1Neuracentral.com")
+        // Removes "1. ", "1) ", "o ", "• " from start of line
+        let cleanLine = line.replace(/^\s*(\d+[\.\)\-]|\*|o|•)\s+/, "");
 
-        const tldRegex = new RegExp(`([\\.\\/\\s\\[\\(])(${VALID_TLDS.join('|')})([\\s)\\]\\/,:;!?]|$)`, 'gi');
+        // 2. HARD BARRIERS (Fixes "Why: AI")
+        // Treat colons, quotes, parens as walls.
+        cleanLine = cleanLine.replace(/[:";\(\)]/g, " | ");
+
+        // 3. Normalization (Visual tricks)
+        let norm = cleanLine.replace(/ dawt /gi, ".")
+                            .replace(/ dot /gi, ".")
+                            .replace(/\[\.\]/g, ".")
+                            .replace(/\[dot\]/gi, ".")
+                            .replace(/•/g, ".");
+
+        const tldRegex = new RegExp(`([\\.\\/\\s\\[])(${VALID_TLDS.join('|')})([\\s)\\]\\/,|!?]|$|:)`, 'gi');
         let match, bestCandidate = null;
 
         while ((match = tldRegex.exec(norm)) !== null) {
@@ -273,6 +280,9 @@
             const isRisky = RISKY_TLDS.has(tld.toLowerCase());
             const isSpaceSep = separator === ' ';
 
+            // RISKY TLD + SPACE CHECK
+            // If it's a risky TLD (like .ai) and separated by space,
+            // we are VERY strict. If preceding char is a letter, it's likely a word.
             if (isRisky && isSpaceSep) {
                 const charBefore = norm[matchIndex - 1];
                 if (charBefore && /[a-z0-9]/i.test(charBefore)) continue;
@@ -281,15 +291,21 @@
             let leftSide = norm.substring(0, matchIndex);
             const stopRegex = new RegExp(`\\b(${STOP_WORDS.join('|')})\\b`, 'gi');
             let tempLeft = leftSide.replace(stopRegex, "|");
+            
+            // Clean Numbers/Prices
             tempLeft = tempLeft.replace(/[$€£]\s?[\d,.]+/g, "|"); 
             tempLeft = tempLeft.replace(/\b\d{4}\b/g, "|"); 
             
             const parts = tempLeft.split('|');
             let candidate = parts[parts.length - 1];
+            
+            // Sanitize
             let cleanName = candidate.replace(/[\s\/\[\]\(\)\.•․\\':",*\-]/g, "");
 
+            // Gates
             if (cleanName.length < 2 || cleanName.length > 30) continue;
             
+            // Sentence Logic
             if (candidate.includes(' ')) {
                 const words = candidate.trim().split(/\s+/);
                 const avgLen = words.reduce((a, b) => a + b.length, 0) / words.length;
@@ -300,62 +316,45 @@
             if (STOP_WORDS.includes(cleanName.toLowerCase())) continue;
 
             bestCandidate = cleanName + "." + tld.toLowerCase();
+            // Break if we found a "strong" match (not risky space-sep)
             if (!isRisky || !isSpaceSep) break;
         }
         return bestCandidate;
     }
 
-    // --- UI Logic ---
-
     function updateUI() {
         document.getElementById('output').value = visibleDomains.join('\n');
         document.getElementById('count-badge').innerText = visibleDomains.length;
         
-        // Label update
         const label = document.getElementById('output-label');
         if (activeFilter) {
             label.innerText = `Domains ending in .${activeFilter}`;
             label.style.color = 'var(--primary)';
         } else {
             label.innerText = 'Extracted Domains';
-            label.style.color = '#475569';
+            label.style.color = '#374151';
         }
 
         generateStats();
     }
 
     function generateStats() {
-        // Stats are always calculated based on MASTER list, so buttons persist
         const stats = {};
         masterDomains.forEach(d => {
-            const parts = d.split('.');
-            // Handle compound TLDs roughly (takes everything after first dot)
-            // But strict TLD logic is better:
-            // We'll just grab everything after the first dot for grouping simplicity
-            // or match against VALID_TLDS if we want perfection.
-            // Simple approach: Split by dot, pop the end? No, co.uk is tricky.
-            // Let's rely on the extraction logic which put valid TLD at end.
-            // Actually, the simplest visual grouping is just the suffix.
-            
-            // Let's try to match the TLD from our known list to be precise
             let tld = "";
             const lowerD = d.toLowerCase();
-            // Find longest matching TLD at end of string
             for(let v of VALID_TLDS) {
                  if (lowerD.endsWith("." + v)) {
-                     // Check if it's the longest match (e.g. .co.uk vs .uk)
                      if (v.length > tld.length) tld = v;
                  }
             }
-            if(!tld) tld = parts[parts.length-1]; // Fallback
-
+            if(!tld) tld = d.split('.').pop();
             stats[tld] = (stats[tld] || 0) + 1;
         });
 
         const sortedStats = Object.entries(stats).sort((a,b) => b[1] - a[1]);
 
         let html = '<table class="stats-table">';
-        // Add "All" row
         html += `<tr onclick="resetFilter()" class="${activeFilter === null ? 'active-filter' : ''}">
                     <td><strong>All Domains</strong></td>
                     <td>${masterDomains.length}</td>
@@ -373,17 +372,10 @@
         document.getElementById('stats-container').innerHTML = html || 'No data';
     }
 
-    // --- Actions ---
-
     function toggleSort() {
-        // Toggle direction
         sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        document.getElementById('btn-sort').innerText = sortDirection === 'asc' ? 'Sort: A ➝ Z' : 'Sort: Z ➝ A';
         
-        // Update Button Text
-        const btn = document.getElementById('btn-sort');
-        btn.innerText = sortDirection === 'asc' ? 'Sort: A ➝ Z' : 'Sort: Z ➝ A';
-        
-        // Execute Sort
         if (sortDirection === 'asc') {
             visibleDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         } else {
@@ -393,12 +385,10 @@
     }
 
     function groupByTLD() {
-        // Force reset active filter to see the grouping effect on main list
         if(activeFilter) activeFilter = null;
-        visibleDomains = [...masterDomains]; // Restore full list to group it
-
+        visibleDomains = [...masterDomains];
         visibleDomains.sort((a, b) => {
-            const extA = a.split('.').slice(1).join('.'); // simplified
+            const extA = a.split('.').slice(1).join('.');
             const extB = b.split('.').slice(1).join('.');
             if (extA < extB) return -1;
             if (extA > extB) return 1;
@@ -409,7 +399,6 @@
 
     function filterByTLD(tld) {
         activeFilter = tld;
-        // Filter from Master list
         visibleDomains = masterDomains.filter(d => d.toLowerCase().endsWith("." + tld));
         updateUI();
     }
@@ -423,7 +412,6 @@
     function applyFormat(type) {
         if (type === 'lower') {
             visibleDomains = visibleDomains.map(d => d.toLowerCase());
-            // Also update master so if we toggle filter, casing sticks
             masterDomains = masterDomains.map(d => d.toLowerCase());
         } else if (type === 'camel') {
             const toCamel = (list) => list.map(d => {
@@ -441,20 +429,13 @@
 
     function exportData(type) {
         if (visibleDomains.length === 0) return alert("Nothing to export!");
-        
-        let content = "";
-        let mime = "text/plain";
-        let filename = `domains_${activeFilter || 'all'}.txt`;
+        let content = "", mime = "text/plain", filename = `domains_${activeFilter || 'all'}.txt`;
 
         if (type === 'csv') {
             content = "Domain,Extension\n" + visibleDomains.map(d => {
-                // simple split for CSV
                 let parts = d.split('.');
                 let ext = parts.pop();
-                if(parts.length > 1 && (ext === 'uk' || ext === 'au')) { 
-                    // naive fix for co.uk in CSV split
-                     ext = parts.pop() + "." + ext; 
-                }
+                if(parts.length > 1 && (ext === 'uk' || ext === 'au')) ext = parts.pop() + "." + ext; 
                 let name = d.replace("."+ext, ""); 
                 return `${name},${ext}`;
             }).join('\n');
@@ -477,8 +458,6 @@
         const el = document.getElementById('output');
         el.select();
         document.execCommand('copy');
-        
-        // Temporary Button Feedback
         const originalText = event.target.innerText;
         event.target.innerText = "Done!";
         setTimeout(() => event.target.innerText = originalText, 1500);
