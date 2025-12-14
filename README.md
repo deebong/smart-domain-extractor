@@ -6,7 +6,7 @@ Unlike standard extractors, this tool is built to handle **obfuscated** and "hum
 
 ## The Problem
 Domain sellers often report sales using creative formatting to avoid bots:
-* `S t o c k O r b i t / c o m` (Spaced out with slashes)
+* `S t o c k S p a c e / c o m` (Spaced out with slashes)
 * `Google(.)com` (Parenthesis)
 * `Example dawt com` (Phonetic spelling)
 * `Company . inc` (Floating dots)
@@ -18,7 +18,7 @@ Standard Regex fails here. It either misses the domain entirely or accidentally 
 * **Advanced De-Obfuscation:** Normalizes spaces, slashes, brackets, and phonetic dots ("dawt", "dot", "•").
 * **Context Awareness:** Uses a "Sentence Gate" algorithm to distinguish between a spaced-out domain name and a normal English sentence.
 * **Noise Filtering:** Automatically strips out prices (`$5,000`), dates, and common stop words (`Sold via...`).
-* **Format Preservation:** Detects and preserves CamelCase (e.g., `StockOrbit.com`) if present in the source.
+* **Format Preservation:** Detects and preserves CamelCase (e.g., `StockSample.com`) if present in the source.
 * **Interactive Sidebar:**
     * **TLD Stats:** Clickable filter to view only specific extensions (e.g., show only `.ai` sales).
     * **Sorting:** Toggle between A-Z and Z-A.
@@ -30,7 +30,7 @@ Standard Regex fails here. It either misses the domain entirely or accidentally 
 
 No installation or build process is required.
 
-1.  Download the `extractor_v5.html` file from this repository.
+1.  Download the `extractor.html` file from this repository.
 2.  Open it in any modern web browser (Chrome, Firefox, Safari).
 3.  Paste your text into the **Source Data** box.
 4.  Click **Extract Domains**.
