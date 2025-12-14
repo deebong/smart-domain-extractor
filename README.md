@@ -4,6 +4,8 @@ A lightweight, single-file HTML/JS tool designed to extract domain names from un
 
 Unlike standard extractors, this tool is built to handle **obfuscated** and "human-written" domains often found on platforms like NamePros, Twitter (X), and DNForum where users try to prevent search engine indexing.
 
+<img src="smart-domain-extractor.png" alt="Domain Extractor Pro" width="600px"/>
+
 ## The Problem
 Domain sellers often report sales using creative formatting to avoid bots:
 * `S t o c k S p a c e / c o m` (Spaced out with slashes)
