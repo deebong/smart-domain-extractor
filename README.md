@@ -4,7 +4,7 @@ A lightweight, single-file HTML/JS tool designed to extract domain names from un
 
 Unlike standard extractors, this tool is built to handle **obfuscated** and "human-written" domains often found on platforms like NamePros, Twitter (X), and DNForum where users try to prevent search engine indexing.
 
-## 🚀 The Problem
+## The Problem
 Domain sellers often report sales using creative formatting to avoid bots:
 * `S t o c k O r b i t / c o m` (Spaced out with slashes)
 * `Google(.)com` (Parenthesis)
@@ -13,7 +13,7 @@ Domain sellers often report sales using creative formatting to avoid bots:
 
 Standard Regex fails here. It either misses the domain entirely or accidentally captures sentences like *"My favorite registrar in 2025"* as `registrar.in`.
 
-## ✨ Features
+## Features
 
 * **Advanced De-Obfuscation:** Normalizes spaces, slashes, brackets, and phonetic dots ("dawt", "dot", "•").
 * **Context Awareness:** Uses a "Sentence Gate" algorithm to distinguish between a spaced-out domain name and a normal English sentence.
@@ -26,7 +26,7 @@ Standard Regex fails here. It either misses the domain entirely or accidentally 
 * **Export Options:** Download results as `.txt` or `.csv`.
 * **100% Client-Side:** Runs entirely in your browser. No server, no data uploads.
 
-## 🛠 Quick Start
+## Quick Start
 
 No installation or build process is required.
 
@@ -35,7 +35,7 @@ No installation or build process is required.
 3.  Paste your text into the **Source Data** box.
 4.  Click **Extract Domains**.
 
-## 🧠 How It Works
+## How It Works
 
 Instead of looking for a standard URL pattern (which is easily broken), this tool uses a **Reverse Anchoring** strategy:
 
@@ -46,10 +46,10 @@ Instead of looking for a standard URL pattern (which is easily broken), this too
     * **Risky TLD Check:** Extensions that are also words (like `.in`, `.it`, `.me`) trigger a stricter check to ensure they aren't part of a sentence.
     * **Length Gate:** Discards fragments that are too long to be valid domains.
 
-## 🤝 Contributing
+## Contributing
 
 Feel free to open an issue if you find a specific style of obfuscation that this tool misses! Pull requests are welcome to improve the regex patterns or UI.
 
-## 📄 License
+## License
 
 MIT License - free to use and modify.
