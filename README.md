@@ -32,7 +32,7 @@ Standard Regex fails here. It either misses the domain entirely or accidentally 
 
 No installation or build process is required.
 
-1.  Download the `extractor.html` file from this repository.
+1.  Download the `index.html` file from this repository.
 2.  Open it in any modern web browser (Chrome, Firefox, Safari).
 3.  Paste your text into the **Source Data** box.
 4.  Click **Extract Domains**.
